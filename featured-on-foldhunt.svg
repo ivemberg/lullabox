@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="54" viewBox="0 0 220 54" role="img" aria-label="Featured on FoldHunt">
+  <rect x=".5" y=".5" width="219" height="53" rx="12" fill="#fffdf9" stroke="#121216" stroke-opacity=".18"/>
+  <g transform="translate(14 13)">
+    <rect x="0" y="1.6" width="10.5" height="24.8" rx="2.6" fill="#121216"/>
+    <path d="M12.5 2.1c0-.9.8-1.6 1.7-1.5l7.4.9c.8.1 1.4.8 1.4 1.6v21.8c0 .8-.6 1.5-1.4 1.6l-7.4.9c-.9.1-1.7-.6-1.7-1.5V2.1Z" fill="#2f4bff"/>
+  </g>
+  <text x="50" y="22" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="9" letter-spacing="1.2" fill="#6d6c75">FEATURED ON</text>
+  <text x="49" y="41" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700" letter-spacing="-.5" fill="#121216">Fold<tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-weight="400" font-size="21">hunt</tspan></text>
+  <path d="M196 20l6 7-6 7" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
