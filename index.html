@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lullabox — Support</title>
-<meta name="description" content="Support and privacy policy for Lullabox, a music box for iPhone and iPhone Duo.">
+<title>Lullabox — A music box for iPhone and iPhone Duo</title>
+<meta name="description" content="Lullabox, a music box for iPhone and iPhone Duo: wind the key, open the lid, watch the dancer. Download, support and privacy policy.">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <style>
@@ -83,12 +83,23 @@
   .lang { margin: 48px 0 20px; text-align: center; color: var(--muted); letter-spacing: 0.3em; font-size: 13px; text-transform: uppercase; }
   .press { text-align: center; margin: 40px 0 0; color: var(--muted); font-size: 15px; }
   .badge { text-align: center; margin: 16px 0 0; }
-  .badge img { vertical-align: middle; margin: 4px 6px; }
+  .badge img { vertical-align: middle; margin: 4px 6px; max-width: 100%; height: auto; }
+  .get { margin: 20px 0 0; }
+  .get .plate { font-size: 18px; padding: 10px 24px; }
+  .get small { display: block; margin-top: 8px; color: var(--muted); font-size: 14px; }
+  .shots { display: grid; grid-template-columns: 1fr 2.3fr; gap: 18px; align-items: start; margin: 4px 0 8px; }
+  .shots img { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); }
+  .shots figure { margin: 0; }
+  .shots figcaption { margin-top: 8px; font-size: 15px; color: var(--muted); text-align: center; font-style: italic; }
+  .more { text-align: center; margin: 36px 0 0; color: var(--muted); font-size: 15px; }
+  .more a { white-space: nowrap; }
   footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
   @media (max-width: 520px) {
     body { font-size: 16px; }
     .panel { padding: 24px 20px 18px; }
     .mark { font-size: 24px; }
+    .shots { grid-template-columns: 1fr; }
+    .shots figure:first-child img { max-width: 260px; margin: 0 auto; }
   }
 </style>
 </head>
@@ -98,8 +109,24 @@
     <img src="icon.png" alt="Lullabox icon: an open music box with a dancer">
     <div class="mark">LULLABOX</div>
     <p class="tagline">A music box for iPhone. On iPhone Duo, your phone is the box.</p>
-    <nav><a href="#support">Support</a> · <a href="#privacy">Privacy</a> · <a href="#italiano">Italiano</a></nav>
+    <p class="get"><a class="plate" href="https://apps.apple.com/app/id6824311897">Download on the App Store</a><small>Free, for iPhone and iPhone Duo</small></p>
+    <nav><a href="#box">The box</a> · <a href="#support">Support</a> · <a href="#privacy">Privacy</a> · <a href="#italiano">Italiano</a></nav>
   </header>
+
+  <section class="panel" id="box">
+    <h2>The box</h2>
+    <p>Wind the brass key and lift the walnut lid: a porcelain dancer rises in front of the mirror and turns while the cylinder plays. When the spring runs down the music slows, like a real music box.</p>
+    <div class="shots">
+      <figure>
+        <img src="shot-iphone.jpg" alt="Lullabox on iPhone: the open box with the dancer, the cylinder and the brass key" width="600" height="1304" loading="lazy">
+        <figcaption>On iPhone.</figcaption>
+      </figure>
+      <figure>
+        <img src="shot-duo.jpg" alt="Lullabox on an open iPhone Duo: the dancer on one side, the cylinder and the key on the other" width="1400" height="985" loading="lazy">
+        <figcaption>On iPhone Duo the hinge is the lid.</figcaption>
+      </figure>
+    </div>
+  </section>
 
   <section class="panel" id="support">
     <h2>Support</h2>
@@ -130,6 +157,12 @@
 
   <div class="lang" id="italiano">Italiano</div>
 
+  <section class="panel" id="carillon" lang="it">
+    <h2>Il carillon</h2>
+    <p>Gira la chiave d'ottone e solleva il coperchio di noce: una ballerina di porcellana sale davanti allo specchio e gira mentre il cilindro suona. Quando la molla si scarica la musica rallenta, come in un carillon vero. Su iPhone Duo la cerniera è il coperchio.</p>
+    <p><a class="plate" href="https://apps.apple.com/it/app/id6824311897">Scarica su App Store</a> <span style="color: var(--muted)">· gratis, per iPhone e iPhone Duo</span></p>
+  </section>
+
   <section class="panel" id="supporto" lang="it">
     <h2>Supporto</h2>
     <p>Domande, un problema o un'idea? Scrivimi e ti rispondo appena posso.</p>
@@ -159,6 +192,8 @@
 
   <p class="press">Featured by MacRumors in <a href="https://www.macrumors.com/2026/11/06/iphone-duo-app-suggestions/">More Fun iPhone Duo Apps</a> · November 2026</p>
   <p class="badge"><a href="https://foldhunt.com/apps/lullabox/"><img src="featured-on-foldhunt.svg" alt="Featured on FoldHunt" width="220" height="54"></a> <a href="https://duoworthy.com/apps/lullabox"><img src="duoworthy-lullabox.svg" alt="Lullabox on Duoworthy: Ready for iPhone Duo" width="225" height="44"></a></p>
+
+  <p class="more">More apps by Ivemberg · Altre app: <a href="https://ivemberg.github.io/tesserarius/">Tesserarius</a> · <a href="https://ivemberg.github.io/haipagato/">Hai pagato?</a> · <a href="https://ivemberg.github.io/recevia-site/">Recevia</a> · <a href="https://www.slottami.it">Slottami</a></p>
 
   <footer>© 2026 Ivo Bettini</footer>
 </div>
