@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un carillon per te — Lullabox</title>
+<meta name="description" content="Qualcuno ti ha regalato un carillon fatto con Lullabox. Gira la chiavetta e apri il coperchio.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../icon.png">
+<link rel="apple-touch-icon" href="../icon.png">
+<meta property="og:title" content="Un carillon per te">
+<meta property="og:description" content="Gira la chiavetta e apri il coperchio.">
+<meta property="og:image" content="https://ivemberg.github.io/lullabox/icon.png">
+<style>
+  :root {
+    --velvet: #5a0a16;
+    --velvet-deep: #2a0309;
+    --brass: #d4a854;
+    --brass-light: #f2d185;
+    --brass-dark: #8c6629;
+    --wood-dark: #4d2414;
+    --ink: #f3e7d3;
+    --muted: #c9b39a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { background: var(--velvet-deep); }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font: 17px/1.6 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255, 214, 140, 0.12), transparent 60%),
+      linear-gradient(rgba(20, 0, 4, 0.35), rgba(20, 0, 4, 0.7)),
+      url("../velvet.jpg") center / 512px repeat,
+      var(--velvet);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+  }
+  main { width: 100%; max-width: 420px; text-align: center; }
+  .gold {
+    background: linear-gradient(var(--brass-light), var(--brass));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .muted { color: var(--muted); }
+  h1 { font-size: 28px; font-weight: 600; margin: 0 0 6px; line-height: 1.25; }
+  p { margin: 0 0 14px; }
+  .plate {
+    display: inline-block; padding: 10px 26px; border-radius: 8px;
+    color: #4a2a10;
+    background: linear-gradient(180deg, #f6dc98, #d4a854 55%, #b88a3c);
+    box-shadow: 0 3px 6px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(0,0,0,.25);
+    text-shadow: 0 1px 0 rgba(255,255,255,.45);
+  }
+  .base .plate { max-width: 214px; }
+  .plate .title { font-size: 22px; font-weight: 600; display: block; line-height: 1.2; overflow-wrap: anywhere; }
+  .plate .subtitle { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; display: block; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  .brass-button {
+    padding: 12px 28px; border-radius: 10px; font-weight: 600; font-size: 18px;
+    color: #4a2a10;
+    background: linear-gradient(180deg, #f6dc98, #d4a854 55%, #b88a3c);
+    box-shadow: 0 4px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .brass-button:active { transform: translateY(1px); }
+  .link { color: var(--brass-light); font-size: 15px; letter-spacing: .04em; }
+
+  /* The envelope */
+  #envelope { perspective: 900px; }
+  .envelope {
+    position: relative; margin: 8px auto 26px; width: 300px; height: 190px; border-radius: 6px;
+    background: linear-gradient(160deg, #f4ead6, #e2d2b1);
+    box-shadow: 0 16px 34px rgba(0,0,0,.55);
+    color: #5b3a1e; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .envelope::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 100px;
+    background: linear-gradient(160deg, #eadcbf, #d9c59f);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    box-shadow: 0 2px 0 rgba(0,0,0,.08);
+  }
+  .seal {
+    position: relative; width: 54px; height: 54px; border-radius: 50%; margin-top: 18px;
+    background: radial-gradient(circle at 35% 35%, #c2283a, #7b0c1a 70%);
+    box-shadow: 0 3px 6px rgba(0,0,0,.4), inset 0 0 0 4px rgba(0,0,0,.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,220,200,.85); font-size: 22px;
+  }
+  .to { position: relative; margin-top: 12px; font-size: 19px; font-style: italic; }
+
+  /* The box */
+  #box { display: none; }
+  .box {
+    position: relative; margin: 6px auto 18px; width: 300px; height: 330px; perspective: 1000px; cursor: pointer;
+  }
+  .base {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 150px; border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(0,0,0,.3)), url("../walnut.jpg") center / 400px;
+    box-shadow: 0 16px 30px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 0 3px rgba(255,255,255,.06);
+    display: flex; align-items: center; justify-content: flex-start; padding-left: 18px;
+  }
+  .lid {
+    position: absolute; left: 0; right: 0; bottom: 150px; height: 170px; border-radius: 8px 8px 4px 4px;
+    transform-origin: 50% 100%; transform: rotateX(-88deg);
+    transition: transform 1.4s cubic-bezier(.3,.8,.3,1);
+    background: linear-gradient(rgba(20,0,4,.25), rgba(20,0,4,.5)), url("../velvet.jpg") center / 300px;
+    box-shadow: inset 0 0 0 6px rgba(77,36,20,.95), inset 0 0 0 8px rgba(212,168,84,.5), 0 -6px 14px rgba(0,0,0,.35);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lid.open { transform: rotateX(-8deg); }
+  .mirror {
+    width: 150px; height: 110px; border-radius: 50% / 45%;
+    background: linear-gradient(160deg, #e6ecf3, #8e9bb0 60%, #cfd8e3);
+    box-shadow: 0 0 0 4px var(--brass), 0 0 0 6px var(--brass-dark), inset 0 0 18px rgba(255,255,255,.6);
+    opacity: .95;
+  }
+  .key {
+    position: absolute; right: -6px; bottom: 50px; width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .25s ease-out;
+  }
+  .key svg { width: 58px; height: 58px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.5)); }
+  .hint { min-height: 26px; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; }
+  .message { font-style: italic; margin: 6px 0 18px; white-space: pre-line; }
+  .cta { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(242,209,133,.18); font-size: 15px; }
+  .cta a.brass-button { display: inline-block; text-decoration: none; margin-top: 8px; font-size: 16px; }
+  .error { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <section id="envelope">
+    <p class="muted" data-text="received">Ti hanno regalato un carillon</p>
+    <div class="envelope" role="img" aria-label="">
+      <div class="seal" aria-hidden="true">♪</div>
+      <div class="to" id="to"></div>
+    </div>
+    <button class="brass-button" id="open" data-text="open">Apri la busta</button>
+  </section>
+
+  <section id="box" aria-live="polite">
+    <div class="box">
+      <div class="lid" id="lid"><div class="mirror"></div></div>
+      <div class="base"><span class="plate"><span class="title" id="title"></span><span class="subtitle" id="subtitle"></span></span></div>
+      <button class="key" id="key" aria-label="">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dc98"/><stop offset=".6" stop-color="#d4a854"/><stop offset="1" stop-color="#8c6629"/></linearGradient></defs>
+          <path fill="url(#b)" d="M32 26c-6-14-26-14-26 6s20 20 26 6c6 14 26 14 26-6s-20-20-26-6z"/>
+          <circle cx="32" cy="32" r="7" fill="url(#b)" stroke="#6b4a1c" stroke-width="1.5"/>
+          <circle cx="17" cy="32" r="4" fill="#3a1d0c"/><circle cx="47" cy="32" r="4" fill="#3a1d0c"/>
+        </svg>
+      </button>
+    </div>
+    <p class="hint gold" id="hint"></p>
+    <p class="message" id="message"></p>
+    <p class="muted" id="from"></p>
+    <div class="cta">
+      <p data-text="cta">Ogni nome ha la sua melodia. Fai il tuo carillon con Lullabox.</p>
+      <a class="brass-button" href="https://apps.apple.com/app/lullabox/id6824311897" data-text="store">Scarica Lullabox</a>
+    </div>
+  </section>
+
+  <section class="error" id="error">
+    <h1 class="gold" data-text="brokenTitle">Questo carillon non si apre</h1>
+    <p class="muted" data-text="broken">Il link sembra incompleto. Chiedi a chi te l'ha mandato di rimandarlo.</p>
+    <a class="link" href="../">Lullabox</a>
+  </section>
+</main>
+
+<script>
+"use strict";
+// Same format as GiftCode.swift (version 1). Keep the two in step.
+const T = {
+  it: { received: "Ti hanno regalato un carillon", open: "Apri la busta", forName: "Per {0}",
+        wind: "Gira la chiavetta", lift: "Tocca la scatola per aprirla", playing: "", again: "Gira ancora la chiavetta",
+        from: "da {0}", cta: "Ogni nome ha la sua melodia. Fai il tuo carillon con Lullabox.", store: "Scarica Lullabox",
+        brokenTitle: "Questo carillon non si apre", broken: "Il link sembra incompleto. Chiedi a chi te l'ha mandato di rimandarlo.",
+        couple: "Per voi due", born: "Nascita: {0}", lullaby: "Ninna nanna", workshop: "Fatto nel laboratorio",
+        key: "Chiavetta di carica", envelope: "Busta chiusa con il nome" },
+  en: { received: "Someone sent you a music box", open: "Open the envelope", forName: "For {0}",
+        wind: "Wind the key", lift: "Tap the box to open it", playing: "", again: "Wind the key again",
+        from: "from {0}", cta: "Every name has its own tune. Make your own music box with Lullabox.", store: "Get Lullabox",
+        brokenTitle: "This music box won’t open", broken: "The link looks incomplete. Ask the person who sent it to send it again.",
+        couple: "For the two of you", born: "Born {0}", lullaby: "Lullaby", workshop: "Made in the workshop",
+        key: "Winding key", envelope: "Sealed envelope with the name" },
+};
+const lang = (navigator.language || "en").toLowerCase().startsWith("it") ? "it" : "en";
+const t = (key, arg) => T[lang][key].replace("{0}", arg ?? "");
+document.documentElement.lang = lang;
+document.querySelectorAll("[data-text]").forEach(el => { el.textContent = t(el.dataset.text); });
+
+function decode(code) {
+  const b64 = code.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((code.length + 3) % 4);
+  const bin = atob(b64);
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  let i = 0;
+  const need = n => { if (i + n > bytes.length) throw new Error("truncated"); };
+  const u8 = () => { need(1); return bytes[i++]; };
+  const u16 = () => { need(2); const v = (bytes[i] << 8) | bytes[i + 1]; i += 2; return v; };
+  const text = limit => { const n = u16(); if (n > limit) throw new Error("text"); need(n);
+    const s = new TextDecoder("utf-8", { fatal: true }).decode(bytes.subarray(i, i + n)); i += n; return s; };
+  if (u8() !== 1) throw new Error("version");
+  const style = u8(), bpm = u8(), loop = u16() / 4;
+  if (style > 3 || bpm < 30 || bpm > 240 || loop <= 0) throw new Error("header");
+  const count = u16();
+  if (count < 1 || count > 600) throw new Error("count");
+  const melody = [];
+  for (let n = 0; n < count; n++) {
+    const beat = u16() / 4, pitch = u8();
+    if (beat >= loop || pitch < 36 || pitch > 96) throw new Error("note");
+    melody.push([beat, pitch]);
+  }
+  const table = [[48,[64,67]],[53,[65,69]],[55,[62,67]],[55,[65,71]],[45,[60,64]],[52,[64,68]],[52,[62,68]],[52,[64,67]],[50,[62,65]],[50,[60,66]]];
+  const chords = [];
+  for (let n = u8(); n > 0; n--) {
+    const beat = u16() / 4, index = u8();
+    if (beat >= loop || index >= table.length) throw new Error("chord");
+    chords.push([beat, table[index]]);
+  }
+  const day = u8(), month = u8();
+  return { style, bpm, loop, melody, chords, day, month,
+           title: text(120), recipient: text(80), sender: text(80), message: text(600) };
+}
+
+// Song.swift: melody at full velocity, the chords arpeggiated (root, then the upper tones on every beat),
+// everything written an octave low; one pin per tine and position, the louder one kept.
+function notesOf(gift) {
+  const notes = gift.melody.map(([beat, pitch]) => ({ beat, pitch: pitch + 12, velocity: 1 }));
+  gift.chords.forEach(([beat, [root, upper]], index) => {
+    const end = index + 1 < gift.chords.length ? gift.chords[index + 1][0] : gift.loop;
+    notes.push({ beat, pitch: root + 12, velocity: 0.6 });
+    for (let offset = 1; beat + offset < end - 0.001; offset++)
+      upper.forEach(pitch => notes.push({ beat: beat + offset, pitch: pitch + 12, velocity: 0.4 }));
+  });
+  notes.sort((a, b) => a.beat - b.beat || a.pitch - b.pitch || b.velocity - a.velocity);
+  return notes.filter((n, k) => k === 0 || n.beat !== notes[k - 1].beat || n.pitch !== notes[k - 1].pitch);
+}
+
+// TineVoice.swift: three modes of a cantilever tine, the fundamental ringing for seconds.
+function render(ctx, gift, turns) {
+  const rate = ctx.sampleRate;
+  const secondsPerBeat = 60 / gift.bpm;
+  const length = Math.ceil((gift.loop * secondsPerBeat * turns + 5) * rate);
+  const buffer = ctx.createBuffer(1, length, rate);
+  const out = buffer.getChannelData(0);
+  const notes = notesOf(gift);
+  const ratios = [1, 6.267, 17.55], levels = [1, 0.28, 0.09], t60s = [null, 0.22, 0.06];
+  const decay = t60 => Math.exp(Math.log(0.001) / (t60 * rate));
+  let seed = 0x9e3779b9;
+  const random = () => { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return (seed >>> 0) / 4294967295; };
+  for (let turn = 0; turn < turns; turn++) {
+    for (const note of notes) {
+      const start = Math.round((turn * gift.loop + note.beat) * secondsPerBeat * rate);
+      const f = 440 * Math.pow(2, (note.pitch - 69) / 12);
+      const v = note.velocity * (0.92 + 0.16 * random());
+      const ring = Math.min(Math.max(3.2 * Math.sqrt(523.25 / f), 0.9), 5);
+      const steps = ratios.map(r => 2 * Math.PI * f * r / rate);
+      let lv = levels.map((l, m) => f * ratios[m] < 0.45 * rate ? v * l : 0);
+      const dk = [decay(ring), decay(t60s[1]), decay(t60s[2])];
+      let noise = 0.05 * v; const noiseDecay = decay(0.004);
+      const attackStep = 1 / (0.0015 * rate);
+      for (let s = 0, attack = 0; start + s < length && lv[0] > 0.0001; s++) {
+        const tone = lv[0] * Math.sin(steps[0] * s) + lv[1] * Math.sin(steps[1] * s) + lv[2] * Math.sin(steps[2] * s);
+        out[start + s] += tone * attack + noise * (random() * 2 - 1);
+        lv[0] *= dk[0]; lv[1] *= dk[1]; lv[2] *= dk[2]; noise *= noiseDecay;
+        attack = Math.min(1, attack + attackStep);
+      }
+    }
+  }
+  for (let s = 0; s < length; s++) out[s] = Math.tanh(out[s] * 0.2 * 1.6) / 1.6 * 2.2;
+  return buffer;
+}
+
+function subtitle(gift) {
+  if (gift.style === 2) return t("couple");
+  if (gift.style === 3) {
+    if (gift.day && gift.month) {
+      const date = new Date(2000, gift.month - 1, gift.day);
+      return t("born", date.toLocaleDateString(lang, { day: "numeric", month: "long" }));
+    }
+    return t("lullaby");
+  }
+  return t("workshop");
+}
+
+let gift;
+try {
+  gift = decode(location.hash.slice(1));
+} catch (e) {
+  document.title = t("brokenTitle") + " — Lullabox";
+  document.getElementById("envelope").style.display = "none";
+  document.getElementById("error").style.display = "block";
+}
+
+if (gift) {
+  const name = gift.recipient || gift.title;
+  document.title = t("forName", name) + " — Lullabox";
+  document.getElementById("to").textContent = t("forName", name);
+  document.querySelector(".envelope").setAttribute("aria-label", t("envelope"));
+  document.getElementById("title").textContent = gift.title;
+  document.getElementById("subtitle").textContent = subtitle(gift);
+  document.getElementById("message").textContent = gift.message;
+  document.getElementById("from").textContent = gift.sender ? t("from", gift.sender) : "";
+  const key = document.getElementById("key"), lid = document.getElementById("lid"), hint = document.getElementById("hint");
+  key.setAttribute("aria-label", t("key"));
+
+  let ctx, buffer, source, gain, filter, wound = 0, isOpen = false, turnsAngle = 0, pendingPlay = false;
+  const say = text => { hint.textContent = text; };
+
+  document.getElementById("open").addEventListener("click", () => {
+    // Audio may only start from a tap: the context is made here and the tune rendered while the box appears.
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    document.getElementById("envelope").style.display = "none";
+    document.getElementById("box").style.display = "block";
+    say(t("wind"));
+    // Under a second on a phone: done once the box is on screen, while the key is being turned.
+    setTimeout(() => { buffer = render(ctx, gift, 3); if (pendingPlay) play(); }, 30);
+  });
+
+  key.addEventListener("click", event => {
+    event.stopPropagation();
+    if (ctx.state === "suspended") ctx.resume();
+    turnsAngle += 72; key.style.transform = `rotate(${turnsAngle}deg)`;
+    click();
+    wound = Math.min(5, wound + 1);
+    if (wound >= 2 && !isOpen) say(t("lift"));
+  });
+
+  document.querySelector(".box").addEventListener("click", () => {
+    if (isOpen) { close(); return; }
+    if (wound === 0) { say(t("wind")); return; }
+    isOpen = true; lid.classList.add("open"); say(t("playing"));
+    play();
+  });
+
+  function click() {
+    const s = ctx.createBufferSource(), b = ctx.createBuffer(1, ctx.sampleRate * 0.02, ctx.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.exp(-k / (ctx.sampleRate * 0.003)) * 0.25;
+    s.buffer = b; s.connect(ctx.destination); s.start();
+  }
+
+  function play() {
+    if (!buffer) { pendingPlay = true; return; }
+    pendingPlay = false;
+    source = ctx.createBufferSource(); source.buffer = buffer;
+    filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 1800;
+    gain = ctx.createGain(); gain.gain.value = 0.3;
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    const now = ctx.currentTime;
+    filter.frequency.linearRampToValueAtTime(13800, now + 1.2);
+    gain.gain.linearRampToValueAtTime(1, now + 1.2);
+    // The spring: more turns, more music; the last seconds slow down as it runs out.
+    const seconds = Math.min(buffer.duration - 5, (gift.loop * 60 / gift.bpm) * (0.6 + wound * 0.5));
+    source.playbackRate.setValueAtTime(1, now + Math.max(seconds - 4, 0.5));
+    source.playbackRate.linearRampToValueAtTime(0.35, now + seconds);
+    gain.gain.setValueAtTime(1, now + seconds - 0.5);
+    gain.gain.linearRampToValueAtTime(0, now + seconds + 0.4);
+    source.start(now); source.stop(now + seconds + 0.5);
+    source.onended = () => { if (isOpen) { wound = 0; say(t("again")); } };
+  }
+
+  function close() {
+    isOpen = false; pendingPlay = false; lid.classList.remove("open");
+    if (source) {
+      const now = ctx.currentTime;
+      filter.frequency.cancelScheduledValues(now); gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(gain.gain.value, now); gain.gain.linearRampToValueAtTime(0, now + 0.1);
+      source.onended = null; source.stop(now + 0.12); source = null;
+    }
+    wound = 0; say(t("wind"));
+  }
+}
+</script>
+</body>
+</html>
